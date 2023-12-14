@@ -22,18 +22,59 @@
     if (isset($data["reason"])) {
         $errormsg = true;
     }
+    $warMembers = $data["clan"]["members"];
+    $opponentMembers = $data["opponent"]["members"];
     ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $data["clan"]["name"]; ?></title>
+    <title>
+        <?php echo $data["clan"]["name"]; ?>
+    </title>
+    <style>
+        <?php include 'style.css'; ?>
+    </style>
 </head>
 
 <body>
-<table>
-    <tr>
-        <td><?php echo $data["state"]?></td>
-    </tr>
+    <h1>Our Members</h1>
+    <table>
+        <?php foreach ($warMembers as $members) { ?>
+            <tr>
+                <td>
+                    <?php echo $members["name"] ?>
+                </td>
+                <td>
+                    <span>Town Hall Level</span>
+                    <?php echo $members["townhallLevel"] ?>
+                </td>
+                <td>
+                    <span>Been Attacked Ct:</span>
+                    <?php echo $members["opponentAttacks"] ?>
+                </td>
+            </tr>
+            <?php
+        }
 
-</table>
+        ?>
+
+    </table>
+    <h1>Enemies Members</h1>
+    <table>
+        <?php foreach ($opponentMembers as $members) { ?>
+            <tr>
+                <td>
+                    <?php echo $members["name"] ?>
+                </td>
+                <td>
+                    <span>Town Hall Level</span>
+                    <?php echo $members["townhallLevel"] ?>
+                </td>
+            </tr>
+            <?php
+        }
+
+        ?>
+
+    </table>
 </body>
 
 </html>
