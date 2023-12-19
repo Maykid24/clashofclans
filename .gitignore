@@ -1,5 +1,7 @@
-token_json.json
+python/app/token_json.json
 token.php
+token_json.json
+token.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

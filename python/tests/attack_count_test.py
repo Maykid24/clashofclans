@@ -1,20 +1,22 @@
 import json
 
-file_path = 'python\json_files\clan_war_2023-12-14.json'
 
-with open(file_path, 'r', encoding='utf-8') as json_file:
-    json_data = json.load(json_file)
+def attack_count(file_name):
+    file_path = file_name
 
-data = json_data
+    with open(file_path, 'r', encoding='utf-8') as json_file:
+        json_data = json.load(json_file)
 
-attacks_count_per_member = {}
+    data = json_data
 
-for member in data['clan']['members']:
-    member_name = member['name']
-    attacks_count = len(member.get('attacks', []))
-    attacks_count_per_member[member_name] = attacks_count
+    attacks_count_per_member = {}
 
-sorted_results = sorted(attacks_count_per_member.items(), key=lambda x: x[1])
+    for member in data['clan']['members']:
+        member_name = member['name']
+        attacks_count = len(member.get('attacks', []))
+        attacks_count_per_member[member_name] = attacks_count
 
-for member_name, attacks_count in sorted_results:
-    print(f"{member_name}: {attacks_count} attacks")
+    sorted_results = sorted(attacks_count_per_member.items(), key=lambda x: x[1])
+
+    for member_name, attacks_count in sorted_results:
+        print(f"{member_name}: {attacks_count} attacks")
