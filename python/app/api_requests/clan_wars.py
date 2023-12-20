@@ -40,6 +40,7 @@ def attack_count(file_name):
 
     attacks_count_per_member = {}
 
+
     for member in data['clan']['members']:
         member_name = member['name']
         attacks_count = len(member.get('attacks', []))
@@ -49,8 +50,11 @@ def attack_count(file_name):
 
     result_json = {"attack_count_per_member": [{"member_name": name, "attacks_count": count} for name, count in sorted_results]}
 
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    output_filename = f'clan_war_{current_date}.json'
+    current_date = datetime.now().strftime('%Y-%m-%d_%H-%M')
+    folder_directory = 'python/json_files/'
+    file = f'clan_war_{current_date}.json'
+
+    output_filename = folder_directory + file
 
     with open(output_filename, 'w') as output_file:
         json.dump(result_json, output_file, indent=2)
@@ -60,10 +64,27 @@ def call_api():
     token = bearer()
     clan_api, clan_tag = configuration_file()
 
+    folder_directory = 'python/json_files/raw/'
+    current_date = datetime.now().strftime('%Y-%m-%d_%H-%M')
+    file_name = f'clan_war_{current_date}.json'
+
+    file_path = folder_directory + file_name
+
     clan_url = f'{clan_api}%23' + clan_tag[1:] + '/currentwar'
     
     headers = {
         'Authorization': f'Bearer {token}'
     } 
 
-    response = request
+    response = requests.get(clan_url, headers=headers)
+    
+    if response.status_code == 200:
+        with open(file_path, 'w') as json_write:
+            json.dump(response.json(), json_write, indent=2)
+        attack_count(file_path)
+    else:
+        print(f'Error: {response.status_code}')
+        print(response.text)
+
+    
+call_api()
